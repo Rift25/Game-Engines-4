@@ -11,6 +11,7 @@ StartScene::~StartScene()
 
 bool StartScene::OnCreate()
 {
+	CoreEngine::GetInstance()->SetCurrentScene(1);
 	std::cout << "start scene" << std::endl;
 	return true;
 }
