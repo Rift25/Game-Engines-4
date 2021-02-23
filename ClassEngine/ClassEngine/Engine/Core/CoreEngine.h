@@ -1,14 +1,17 @@
 #ifndef COREENGINE_H
 #define COREENGINE_H
 
-#include "Window.h"
 #include <memory>
+
+#include "Window.h"
 #include "Timer.h"
 #include "Debug.h"
 #include "GameInterface.h"
 #include "Scene.h"
 
 #include "../Rendering/3D/GameObject.h"
+
+#include "../Graphics/ShaderHandler.h"
 
 class CoreEngine
 {
@@ -42,7 +45,7 @@ private:
 
 	Window* window;
 	bool isRunning;
-	Timer timer;
+	Timer* timer;
 	unsigned int fps;
 	GameInterface* gameInterface;
 	int currentSceneNum;

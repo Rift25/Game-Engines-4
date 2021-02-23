@@ -25,22 +25,25 @@ bool CoreEngine::OnCreate(std::string name_, int width_, int height_)
 	window = new Window();
 	if (!window->OnCreate(name_, width_, height_))
 	{
-		std::cout << "Window failed to initialize" << std::endl;
+		Debug::FatalError("Window failed to initialize", "CoreEngine.cpp", __LINE__);
 		OnDestroy();
 		return isRunning = false;
 	}
+
+	ShaderHandler::GetInstance()->CreateProgram("colourShader", "Engine/Shaders/ColourVertexShader.glsl", "Engine/Shaders/ColourFragmentShader.glsl");
 
 	if (gameInterface)
 	{
 		if (!gameInterface->OnCreate())
 		{
-			std::cout << "Game failed to initialize" << std::endl;
+			Debug::FatalError("Game failed to initialize", "CoreEngine.cpp", __LINE__);
 			OnDestroy();
 			return isRunning = false;
 		}
 	}
 	Debug::Info("Everything worked", "CoreEngine.cpp", __LINE__);
-	timer.Start();
+	timer = new Timer();
+	timer->Start();
 	return isRunning = true;
 }
 
@@ -48,15 +51,12 @@ void CoreEngine::Run()
 {
 	while (isRunning)
 	{
-		timer.UpdateFrameTicks();
-		Update(timer.GetDeltaTime());
+		timer->UpdateFrameTicks();
+		Update(timer->GetDeltaTime());
 		Render();
-		SDL_Delay(timer.GetSleepTime(fps));
+		SDL_Delay(timer->GetSleepTime(fps));
 	}
-	if (!isRunning)
-	{
-		OnDestroy();
-	}
+	OnDestroy();
 }
 
 void CoreEngine::Exit()
@@ -89,7 +89,6 @@ void CoreEngine::Update(const float deltaTime_)
 	if (gameInterface)
 	{
 		gameInterface->Update(deltaTime_);
-		std::cout << deltaTime_ << std::endl;
 	}
 	
 }
@@ -110,12 +109,17 @@ void CoreEngine::Render()
 
 void CoreEngine::OnDestroy()
 {
+	ShaderHandler::GetInstance()->OnDestroy();
+
 	delete gameInterface;
 	gameInterface = nullptr;
 
+	delete timer;
+	timer = nullptr;
+
 	delete window;
 	window = nullptr;
-
+	
 	SDL_Quit();
 	exit(0);
 }
