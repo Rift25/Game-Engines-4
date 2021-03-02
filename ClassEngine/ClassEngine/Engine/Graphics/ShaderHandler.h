@@ -35,5 +35,5 @@ private:
 	static std::unordered_map<std::string, GLuint> programs;
 };
 
-#endif // ~SHADERHANDLER_H
+#endif // !SHADERHANDLER_H
 
