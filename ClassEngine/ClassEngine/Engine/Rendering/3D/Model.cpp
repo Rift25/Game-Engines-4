@@ -6,7 +6,7 @@ Model::Model(GLuint shaderProgram_, glm::vec3 position_, float angle_, glm::vec3
 	shaderProgram = shaderProgram_;
 	position = position_;
 	angle = angle_;
-	rotation = rotation;
+	rotation = rotation_;
 	scale = scale_;
 }
 

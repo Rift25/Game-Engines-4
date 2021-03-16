@@ -1,2 +1,2 @@
-[INFO]: Everything worked in: CoreEngine.cpp on line: 44
-[INFO]: Creating GameScene in: GameScene.cpp on line: 18
+[INFO]: Everything worked in: CoreEngine.cpp on line: 45
+[INFO]: Creating GameScene in: GameScene.cpp on line: 19

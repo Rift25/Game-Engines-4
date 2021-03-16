@@ -3,7 +3,7 @@
 #include "../Core/CoreEngine.h"
 
 Camera::Camera() : position(glm::vec3()), fieldOfView(0.0f), forward(glm::vec3()), up(glm::vec3()), right(glm::vec3()), worldUp(glm::vec3()), nearPlane(0.0f), farPlane(0.0f),
-yaw(0.0f), pitch(0.0f), perspective(glm::mat4()), orthographic(glm::mat4()), view(glm::mat4())
+yaw(0.0f), pitch(0.0f), perspective(glm::mat4()), orthographic(glm::mat4()), view(glm::mat4()), lightSources(std::vector<LightSource*>())
 {
 	fieldOfView = 45.0f;
 	forward = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -24,6 +24,15 @@ yaw(0.0f), pitch(0.0f), perspective(glm::mat4()), orthographic(glm::mat4()), vie
 
 Camera::~Camera()
 {
+	if (lightSources.size() > 0)
+	{
+		for (auto m : lightSources)
+		{
+			delete m;
+			m = nullptr;
+		}
+		lightSources.clear();
+	}
 }
 
 void Camera::SetPosition(glm::vec3 position_)
@@ -37,6 +46,11 @@ void Camera::SetRotation(float yaw_, float pitch_)
 	yaw = yaw_;
 	pitch = pitch_;
 	UpdateCameraVectors();
+}
+
+void Camera::AddLightSource(LightSource* lightSource_)
+{
+	lightSources.push_back(lightSource_);
 }
 
 glm::mat4 Camera::GetView() const
@@ -57,6 +71,11 @@ glm::mat4 Camera::GetOrthographic() const
 glm::vec3 Camera::GetPosition() const
 {
 	return position;
+}
+
+std::vector<LightSource*> Camera::GetlightSourcesList() const
+{
+	return lightSources;
 }
 
 void Camera::UpdateCameraVectors()
