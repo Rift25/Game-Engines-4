@@ -57,7 +57,7 @@ void LoadOBJModel::LoadModel(const std::string& filePath_)
 			vertices.push_back(glm::vec3(x, y, z));
 		}
 		//TEXTURE DATA
-		else if (line.substr(0, 2) == "vt ")
+		else if (line.substr(0, 2) == "vt")
 		{
 			std::stringstream v(line.substr(2));
 			float x, y;
@@ -65,7 +65,7 @@ void LoadOBJModel::LoadModel(const std::string& filePath_)
 			textureCoords.push_back(glm::vec2(x, y));
 		}
 		//NORMAL DATA
-		else if (line.substr(0, 2) == "vn ")
+		else if (line.substr(0, 2) == "vn")
 		{
 			std::stringstream v(line.substr(2));
 			float x, y, z;

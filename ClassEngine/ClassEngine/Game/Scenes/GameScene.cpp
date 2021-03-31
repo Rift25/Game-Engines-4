@@ -244,7 +244,7 @@ bool GameScene::OnCreate()
 	vertexList.push_back(v);*/
 	
 
-	model = new Model("Resources/Models/Dice.obj", "Resources/Materials/Dice.mtl", ShaderHandler::GetInstance()->GetShader("basicShader"));
+	model = new Model("Resources/Models/Apple.obj", "Resources/Materials/Apple.mtl", ShaderHandler::GetInstance()->GetShader("basicShader"));
 	//SubMesh subMesh;
 	//subMesh.vertexList = vertexList;
 	//subMesh.textureID = TextureHandler::GetInstance()->GetTexture("CheckerboardTexture");
