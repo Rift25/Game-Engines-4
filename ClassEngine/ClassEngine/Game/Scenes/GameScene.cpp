@@ -21,9 +21,9 @@ bool GameScene::OnCreate()
 	CoreEngine::GetInstance()->SetCamera(new Camera());
 	CoreEngine::GetInstance()->GetCamera()->SetPosition(glm::vec3(0.0f, 0.0f, 4.0f));
 	CoreEngine::GetInstance()->GetCamera()->AddLightSource(new LightSource(glm::vec3(0.0f, 0.0f, 2.0f), 0.1f, 0.5f, 0.5f, glm::vec3(1.0f, 1.0f, 1.0f)));
-	TextureHandler::GetInstance()->CreateTexture("CheckerboardTexture", "./Resources/Textures/CheckerboardTexture.png");
+	//TextureHandler::GetInstance()->CreateTexture("CheckerboardTexture", "./Resources/Textures/CheckerboardTexture.png");
 
-	Vertex v;
+	/*Vertex v;
 	std::vector<Vertex> vertexList;
 	vertexList.reserve(36);
 
@@ -241,12 +241,15 @@ bool GameScene::OnCreate()
 	v.normal = glm::vec3(0.0f, 1.0f, 0.0f);
 	v.textureCoordinates = glm::vec2(0.0f, 0.0f);
 	v.colour = glm::vec3(0.982f, 0.099f, 0.879f);
-	vertexList.push_back(v);
+	vertexList.push_back(v);*/
 	
 
-	model = new Model(ShaderHandler::GetInstance()->GetShader("basicShader"));
-	model->AddMesh(new Mesh(vertexList, TextureHandler::GetInstance()->GetTexture("CheckerboardTexture"), 
-		ShaderHandler::GetInstance()->GetShader("basicShader")));
+	model = new Model("Resources/Models/Dice.obj", "Resources/Materials/Dice.mtl", ShaderHandler::GetInstance()->GetShader("basicShader"));
+	//SubMesh subMesh;
+	//subMesh.vertexList = vertexList;
+	//subMesh.textureID = TextureHandler::GetInstance()->GetTexture("CheckerboardTexture");
+	//model->AddMesh(new Mesh(subMesh, 
+		//ShaderHandler::GetInstance()->GetShader("basicShader")));
 	//model->SetScale(glm::vec3(0.5f));
 	shape = new GameObject(model);
 	
@@ -255,7 +258,7 @@ bool GameScene::OnCreate()
 
 void GameScene::Update(const float deltaTime_)
 {
-	model->SetAngle(model->GetAngle() + 0.005f);
+	shape->Update(deltaTime_);
 }
 
 void GameScene::Render()

@@ -1,10 +1,9 @@
 #include "Mesh.h"
 
-Mesh::Mesh(std::vector<Vertex>& vertexList_,GLuint textureID_, GLuint shaderProgram_) : VAO(0), VBO(0), vertexList(std::vector<Vertex>()), shaderProgram(0),textureID(0), modelLoc(0), viewLoc(0), projectionLoc(0), textureLoc(0),
+Mesh::Mesh(SubMesh& subMesh_, GLuint shaderProgram_) : VAO(0), VBO(0), shaderProgram(0), modelLoc(0), viewLoc(0), projectionLoc(0), textureLoc(0),
 viewPosition(0), lightPosition(0), lightAmbient(0), lightDiffuse(0), lightSpecular(0), lightColour(0)
 {
-	vertexList = vertexList_;
-	textureID = textureID_;
+	subMesh = subMesh_;
 	shaderProgram = shaderProgram_;
 	GenerateBuffers();
 }
@@ -14,14 +13,22 @@ Mesh::~Mesh()
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 
-	vertexList.clear();
+	if (subMesh.vertexList.size() > 0)
+	{
+		subMesh.vertexList.clear();
+	}
+
+	if (subMesh.meshIndices.size() > 0)
+	{
+		subMesh.meshIndices.clear();
+	}
 }
 
-void Mesh::Render(Camera* camera_, glm::mat4 transform_)
+void Mesh::Render(Camera* camera_, std::vector<glm::mat4>& instances_)
 {
 	glUniform1i(textureLoc, 0);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureID);
+	glBindTexture(GL_TEXTURE_2D, subMesh.textureID);
 
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera_->GetView()));
 	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(camera_->GetPerspective()));
@@ -30,7 +37,13 @@ void Mesh::Render(Camera* camera_, glm::mat4 transform_)
 
 	glEnable(GL_DEPTH_TEST);
 
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(transform_));
+
+	for (int i = 0; i < instances_.size(); i++)
+	{
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(instances_[i]));
+		glDrawArrays(GL_TRIANGLES, 0, subMesh.vertexList.size());
+	}
+	
 
 	glUniform3fv(viewPosition, 1, glm::value_ptr(camera_->GetPosition()));
 	glUniform3fv(lightPosition, 1, glm::value_ptr(camera_->GetlightSourcesList()[0]->GetPosition()));
@@ -39,10 +52,8 @@ void Mesh::Render(Camera* camera_, glm::mat4 transform_)
 	glUniform1f(lightSpecular, 1.0f);
 	glUniform3fv(lightColour, 1, glm::value_ptr(camera_->GetlightSourcesList()[0]->GetLightColour()));
 
-
-	glDrawArrays(GL_TRIANGLES, 0, vertexList.size());
-
 	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Mesh::GenerateBuffers()
@@ -51,7 +62,7 @@ void Mesh::GenerateBuffers()
 	glGenBuffers(1, &VBO);
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, vertexList.size() * sizeof(Vertex), &vertexList[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, subMesh.vertexList.size() * sizeof(Vertex), &subMesh.vertexList[0], GL_STATIC_DRAW);
 
 	//POSITION
 	glEnableVertexAttribArray(0);
