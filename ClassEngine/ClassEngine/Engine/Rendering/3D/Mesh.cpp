@@ -47,9 +47,9 @@ void Mesh::Render(Camera* camera_, std::vector<glm::mat4>& instances_)
 
 	glUniform3fv(viewPosition, 1, glm::value_ptr(camera_->GetPosition()));
 	glUniform3fv(lightPosition, 1, glm::value_ptr(camera_->GetlightSourcesList()[0]->GetPosition()));
-	glUniform1f(lightAmbient, 1.0f);
-	glUniform1f(lightDiffuse, 1.0f);
-	glUniform1f(lightSpecular, 1.0f);
+	glUniform1f(lightAmbient, camera_->GetlightSourcesList()[0]->GetAmbientValue());
+	glUniform1f(lightDiffuse, camera_->GetlightSourcesList()[0]->GetDiffuseValue());
+	glUniform1f(lightSpecular, camera_->GetlightSourcesList()[0]->GetSpecularValue());
 	glUniform3fv(lightColour, 1, glm::value_ptr(camera_->GetlightSourcesList()[0]->GetLightColour()));
 
 	glBindVertexArray(0);
