@@ -29,94 +29,50 @@ void MaterialLoader::LoadMaterial(std::string filePath_)
 			m.diffuseMap = LoadTexture(matName);
 			m.name = matName;
 		}
-		else if (line.substr(0, 2) == "Ns")
+		else if (line.substr(0, 3) == "\tNs")
 		{
-			if (m.shininess != 0)
-			{
-				MaterialHandler::GetInstance()->AddMaterial(m);
-				m = Material();
-			}
-			matName = line.substr(2);
-			m.shininess = LoadTexture(matName);
-			m.name = matName;
+			std::stringstream v(line.substr(3));
+			float f;
+			v >> f;
+
+			m.shininess = f;
 		}
-		else if (line.substr(0, 2) == "d ")
+		else if (line.substr(0, 3) == "\td ")
 		{
-			if (m.transparency != 0)
-			{
-				MaterialHandler::GetInstance()->AddMaterial(m);
-				m = Material();
-			}
-			matName = line.substr(2);
-			m.transparency = LoadTexture(matName);
-			m.name = matName;
+			std::stringstream v(line.substr(3));
+			float f;
+			v >> f;
+
+			m.transparency = f;
 		}
-		else if (line.substr(0, 2) == "Ka")
+		else if (line.substr(0, 3) == "\tKa")
 		{
-			if (m.ambient != glm::vec3(0.0f, 0.0f, 0.0f))
-			{
-				MaterialHandler::GetInstance()->AddMaterial(m);
-				m = Material();
-			}
-			matName = line.substr(2);
-			m.ambient = glm::vec3(LoadTexture(matName));
-			m.name = matName;
+			std::stringstream v(line.substr(3));
+			float x, y, z;
+			v >> x >> y >> z;
+		
+			m.ambient = glm::vec3(x, y, z);
 		}
-		else if (line.substr(0, 2) == "Kd")
+		else if (line.substr(0, 3) == "\tKd")
 		{
-			if (m.diffuse != glm::vec3(0.0f, 0.0f, 0.0f))
-			{
-				MaterialHandler::GetInstance()->AddMaterial(m);
-				m = Material();
-			}
-			matName = line.substr(2);
-			m.diffuse = glm::vec3(LoadTexture(matName));
-			m.name = matName;
+			std::stringstream v(line.substr(3));
+			float x, y, z;
+			v >> x >> y >> z;
+
+			m.diffuse = glm::vec3(x, y, z);
+		
 		}
-		else if (line.substr(0, 2) == "Ks")
+		else if (line.substr(0, 3) == "\tKs")
 		{
-			if (m.specular != glm::vec3(0.0f, 0.0f, 0.0f))
-			{
-				MaterialHandler::GetInstance()->AddMaterial(m);
-				m = Material();
-			}
-			matName = line.substr(2);
-			m.specular = glm::vec3(LoadTexture(matName));
-			m.name = matName;
+			std::stringstream v(line.substr(3));
+			float x, y, z;
+			v >> x >> y >> z;
+
+			m.specular = glm::vec3(x, y, z);
 		}
 	}
 
 	if (m.diffuseMap != 0)
-	{
-		MaterialHandler::GetInstance()->AddMaterial(m);
-	}
-	in.close();
-
-	if (m.shininess != 0)
-	{
-		MaterialHandler::GetInstance()->AddMaterial(m);
-	}
-	in.close();
-
-	if (m.transparency != 0)
-	{
-		MaterialHandler::GetInstance()->AddMaterial(m);
-	}
-	in.close();
-
-	if (m.ambient != glm::vec3(0.0f, 0.0f, 0.0f))
-	{
-		MaterialHandler::GetInstance()->AddMaterial(m);
-	}
-	in.close();
-
-	if (m.diffuse != glm::vec3(0.0f, 0.0f, 0.0f))
-	{
-		MaterialHandler::GetInstance()->AddMaterial(m);
-	}
-	in.close();
-
-	if (m.specular != glm::vec3(0.0f, 0.0f, 0.0f))
 	{
 		MaterialHandler::GetInstance()->AddMaterial(m);
 	}
