@@ -1,3 +1,19 @@
-﻿  Mesh.cpp
-D:\Game Engines 4 - Game Engine\ClassEngine\ClassEngine\Engine\Rendering\3D\Mesh.cpp(41,20): warning C4018: '<': signed/unsigned mismatch
+﻿  MaterialLoader.cpp
+D:\Game Engines 4 - Game Engine\ClassEngine\ClassEngine\Engine\FX\MaterialLoader.cpp(40,29): warning C4244: '=': conversion from 'GLuint' to 'float', possible loss of data
+D:\Game Engines 4 - Game Engine\ClassEngine\ClassEngine\Engine\FX\MaterialLoader.cpp(51,32): warning C4244: '=': conversion from 'GLuint' to 'float', possible loss of data
+D:\Game Engines 4 - Game Engine\ClassEngine\ClassEngine\Engine\FX\MaterialLoader.cpp(62,37): warning C4244: 'argument': conversion from 'GLuint' to 'const T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Game Engines 4 - Game Engine\ClassEngine\ClassEngine\Engine\FX\MaterialLoader.cpp(73,37): warning C4244: 'argument': conversion from 'GLuint' to 'const T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Game Engines 4 - Game Engine\ClassEngine\ClassEngine\Engine\FX\MaterialLoader.cpp(84,38): warning C4244: 'argument': conversion from 'GLuint' to 'const T', possible loss of data
+          with
+          [
+              T=float
+          ]
   ClassEngine.vcxproj -> D:\Game Engines 4 - Game Engine\ClassEngine\Debug\ClassEngine.exe
