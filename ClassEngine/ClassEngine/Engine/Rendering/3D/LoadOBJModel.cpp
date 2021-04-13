@@ -36,6 +36,11 @@ std::vector<SubMesh> LoadOBJModel::GetSubMeshes()
 	return subMeshes;
 }
 
+BoundingBox LoadOBJModel::GetBoundingBox() const
+{
+	return boundingBox;
+}
+
 void LoadOBJModel::LoadModel(const std::string& filePath_)
 {
 	std::ifstream in(filePath_.c_str(), std::ios::in);
@@ -53,8 +58,42 @@ void LoadOBJModel::LoadModel(const std::string& filePath_)
 		{
 			std::stringstream v(line.substr(2));
 			float x, y, z;
+			float tempMaxX, tempMaxY, tempMaxZ;
+			float tempMinX, tempMinY, tempMinZ;
+			
 			v >> x >> y >> z;
+
 			vertices.push_back(glm::vec3(x, y, z));
+			tempMinX = tempMaxX = vertices[0].x;
+			tempMinY = tempMaxY = vertices[0].y;
+			tempMinZ = tempMaxZ = vertices[0].z;
+		
+			for (int i = 0; i < vertices.size(); i++)
+			{
+				if (vertices[i].x < tempMinX)
+					tempMinX = vertices[i].x;
+				if (vertices[i].x > tempMaxX)
+					tempMaxX = vertices[i].x;
+
+				if (vertices[i].y < tempMinY)
+					tempMinY = vertices[i].y;
+				if (vertices[i].y > tempMaxY)
+					tempMaxY = vertices[i].y;
+
+				if (vertices[i].z < tempMinZ)
+					tempMinZ = vertices[i].z;
+				if (vertices[i].z > tempMaxZ)
+					tempMaxZ = vertices[i].z;
+
+			}
+			boundingBox.minVert.x = tempMinX;
+			boundingBox.minVert.y = tempMinY;
+			boundingBox.minVert.z = tempMinZ;
+			boundingBox.maxVert.x = tempMaxX;
+			boundingBox.maxVert.y = tempMaxY;
+			boundingBox.maxVert.z = tempMaxZ;
+
+
 		}
 		//TEXTURE DATA
 		else if (line.substr(0, 2) == "vt")

@@ -22,6 +22,9 @@ public:
 	glm::vec3 GetPosition() const;
 	std::vector<LightSource*> GetlightSourcesList() const;
 
+	void ProcessMouseMovement(glm::vec2 offset_);
+	void ProcessMouseZoom(int y_);
+
 private:
 	void UpdateCameraVectors();
 	glm::vec3 position;
