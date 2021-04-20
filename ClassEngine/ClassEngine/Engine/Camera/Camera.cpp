@@ -77,6 +77,16 @@ std::vector<LightSource*> Camera::GetlightSourcesList() const
 	return lightSources;
 }
 
+float Camera::GetNearPlane() const
+{
+	return nearPlane;
+}
+
+float Camera::GetFarPlane() const
+{
+	return farPlane;
+}
+
 void Camera::UpdateCameraVectors()
 {
 	forward.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
