@@ -195,10 +195,9 @@ void OctSpatialPartition::AddObjectToCell(OctNode* cell_, GameObject* obj_)
 				for (int i = 0; i < CHILDREN_NUMBER; i++)
 				{
 				AddObjectToCell(cell_->children[i], obj_);
-				std::cout << "Added " << obj_->GetTag() << " to cell: " << std::endl;
 				}
 			}
-
+			std::cout << "Added " << obj_->GetTag() << " to cell: " << glm::to_string(cell_->GetBoundingBox()->minVert) << std::endl;
 		}
 	}
 }
@@ -222,8 +221,6 @@ void OctSpatialPartition::PrepareCollisionQuery(OctNode* cell_, Ray ray_)
 					PrepareCollisionQuery(cell_->children[i], ray_);
 				}
 			}
-
 		}
 	}
-	
 }
